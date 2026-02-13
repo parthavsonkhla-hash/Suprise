@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Built by Parth ❤️</title>
+    <style>
+        :root { --primary: #ff4d6d; --bg: #fff0f3; }
+        body { margin: 0; padding: 0; font-family: sans-serif; background: var(--bg); height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        
+        #app { text-align: center; background: white; padding: 30px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 85%; max-width: 400px; position: relative; }
+        
+        h1 { color: var(--primary); margin-bottom: 5px; font-size: 1.8rem; }
+        #counter-text { color: #888; font-size: 0.9rem; margin-bottom: 25px; }
+
+        /* The Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translate(0,0); }
+            25% { transform: translate(-2px, -2px); }
+            75% { transform: translate(2px, 2px); }
+        }
+
+        .btn-group { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 20px; 
+            min-height: 100px; 
+        }
+        
+        button { border: none; padding: 15px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.2s all ease; font-size: 1rem; }
+        
+        #yesBtn { background: var(--primary); color: white; position: relative; z-index: 10; }
+        
+        /* Fixed the 'No' button starting position */
+        #noBtn { 
+            background: #e0e0e0; 
+            color: #555; 
+            position: relative; /* Starts in the normal flow */
+            z-index: 100; /* Stays on top */
+            animation: shake 0.4s infinite;
+        }
+
+        .hidden { display: none !important; }
+        img { width: 100%; border-radius: 15px; margin-top: 15px; }
+        .footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 0.8rem; color: var(--primary); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div id="main-content">
+            <h1>Will you be my Valentine? 💖</h1>
+            <div id="counter-text">"No" attempts: 0</div>
+            
+            <div class="btn-group">
+                <button id="yesBtn">YES! 🐾</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div id="success-screen" class="hidden">
+            <h1>YAAAAAY! 🎉</h1>
+            <p>Built with ❤️ by Parth</p>
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZueXF6NjB6NmZ6NmZ6NmZ6NmZ6NmZ6NmZ6NmZ6NmZ6NmZ6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/GeimqsH0TLDt4tScGw/giphy.gif" alt="Happy Cat">
+        </div>
+    </div>
+
+    <div class="footer">Created by Parth ❤️</div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const counterDisplay = document.getElementById('counter-text');
+        
+        let noCount = 0;
+        let yesScale = 1;
+
+        const moveNo = () => {
+            noCount++;
+            counterDisplay.innerText = `"No" attempts: ${noCount}`;
+            
+            // Make YES grow
+            yesScale += 0.15;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // PROFESSIONAL BOUNDARY LOGIC
+            // This ensures the button stays within the actual visible screen
+            const padding = 50; 
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'fixed'; // Now it switches to fixed to fly away
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        };
+
+        // Desktop and Mobile listeners
+        noBtn.addEventListener('mouseover', moveNo);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); 
+            moveNo();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('main-content').classList.add('hidden');
+            document.getElementById('success-screen').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
